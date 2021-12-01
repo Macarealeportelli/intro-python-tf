@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# author: <su nombre>
+# author: <Macarena Reale Portelli>
 
 # import the Flask class from the flask module
 from flask import Flask, render_template
