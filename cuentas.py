@@ -2,10 +2,14 @@
 # -*- coding: utf-8 -*-
 # author: <Macarena Reale Portelli>
 
+
+from persona import Persona
+
+
 class Cuenta:
 
-    def __init__(self, titular, monto_inicio=0, numero_de_cuenta=0):  # contructor, siempre de la misma forma
-        self.titular = titular
+    def __init__(self, persona_titular, monto_inicio=0, numero_de_cuenta=0):  # contructor, siempre de la misma forma
+        self.titular = persona_titular
         self.cantidad = monto_inicio
         self.numero_de_cuenta = numero_de_cuenta
         self.activa = True

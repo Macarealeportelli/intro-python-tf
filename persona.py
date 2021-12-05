@@ -12,9 +12,7 @@ class Persona(object):
     def mostrar(self):
         print(f"nombre : {self.nombre} edad :{self.edad} dni : {self.dni}")
 
-
-#TODO_edad
-
+    # TODO_edad
 
     def es_mayor_de_edad(self):
         if self.edad >= 18:
