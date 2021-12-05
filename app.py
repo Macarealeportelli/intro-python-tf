@@ -5,7 +5,7 @@
 from _datetime import datetime
 
 import flask
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request
 
 # from cuenta import Cuenta, MovimientoCuenta
 from persona import Persona
