@@ -2,20 +2,30 @@
 # -*- coding: utf-8 -*-
 # author: <Macarena Reale Portelli>
 
+import datetime
+
+
 class Persona(object):
 
-    def __init__(self, dni, nombre="", edad=0):
+    def __init__(self, dni, nombre, fecha_nacimiento):
         self.nombre = nombre
-        self.edad = edad
+        self.fecha_nacimiento = fecha_nacimiento
         self.dni = dni
+
+    def __str__(self):
+        return f'Nombre: {self.nombre}'
 
     def mostrar(self):
         print(f"nombre : {self.nombre} edad :{self.edad} dni : {self.dni}")
 
-    # TODO_edad
+    @property
+    def edad(self):
+        hoy = datetime.date.today()
+        delta = hoy - self.fecha_nacimiento
+        return int(delta.days/365)
 
     def es_mayor_de_edad(self):
-        if self.edad >= 18:
-            return True
-        else:
-            return False
+        return self.edad >= 18
+
+    def a_tupla(self):
+        return self.nombre, self.fecha_nacimiento, self.dni

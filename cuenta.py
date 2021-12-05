@@ -1,12 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# author: <Macarena Reale Portelli>
+# author: Maca Reale Portelli
+import datetime
 
 
-from persona import Persona
-
-
-class Cuenta:
+class Cuenta(object):
 
     def __init__(self, persona_titular, monto_inicio=0, numero_de_cuenta=0):  # contructor, siempre de la misma forma
         self.titular = persona_titular
@@ -39,12 +37,22 @@ class Cuenta:
 
 class CuentaJoven(Cuenta):
 
-    # TODO: Agregar edad si es necesario para el ejercicio
     def __init__(self, titular, bonificacion, monto_inicio=0, numero_de_cuenta=0):
-        # contructor, siempre de la misma forma
         Cuenta.__init__(self, titular, monto_inicio, numero_de_cuenta)
         self.bonificacion = bonificacion
 
     def mostrar(self):
-        # TODO: mostrar la bonificacion
         print(f"CUENTA JOVEN: {self.titular}: {self.cantidad}")
+
+
+class MovimientoCuenta(object):
+
+    def __init__(self, cuenta, descripcion, monto_del_movimiento):
+        self.fecha_y_hora = datetime.datetime.now()
+        self.cuenta = cuenta
+        self.descripcion = descripcion
+        self.monto = monto_del_movimiento
+
+    def __str__(self):
+        # TODO: Completar como pide el ejercicio 3)
+        return f"{self.fecha_y_hora} {self.descripcion} {self.monto}"
