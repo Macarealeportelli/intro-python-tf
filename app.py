@@ -47,7 +47,6 @@ def proceso():
 
 @app.route('/<int:dni>')
 def home(dni):
-    # TODO: Si no existe, reemplazar saludo por un mensaje que explique que no se envio dni o no existe en nuestra db
     try:
         persona_titular = lista_de_datos[str(dni)]
         return render_template('home-banking.html',
