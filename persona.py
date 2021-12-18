@@ -2,9 +2,12 @@
 # -*- coding: utf-8 -*-
 # author: <Macarena Reale Portelli>
 
-import datetime
 
+from sqlalchemy import DateTime, Integer, String, Column
+from app import db
 from cuenta import Cuenta
+import datetime
+import clima_fecha
 
 
 def convertir_fecha(string_fecha):
@@ -15,13 +18,20 @@ def convertir_fecha(string_fecha):
     return datetime.date(int(anio), int(mes), int(dia))
 
 
-class Persona(object):
+class Persona(db.Model):
+    __tablename__ = 'personas'
+    id = Column(Integer, primary_key=True)
+    nombre = Column(String(100), nullable=False)
+    fecha_nacimiento = Column(DateTime, nullable=False)
+    dni = Column(String(8), nullable=False)
+    ciudad = Column(String(100), nullable=False)
 
-    def __init__(self, dni, nombre, str_fecha_nacimiento):
+    def __init__(self, dni, nombre, str_fecha_nacimiento, ciudad):
         self.nombre = nombre
         self.fecha_nacimiento = convertir_fecha(str_fecha_nacimiento)
         self.dni = dni
         self.cuentas = []
+        self.ciudad = ciudad
 
     def __str__(self):
         return f'Nombre: {self.nombre}'
@@ -44,7 +54,16 @@ class Persona(object):
         todos_los_movimientos = []
         for cuenta in self.cuentas:
             todos_los_movimientos += cuenta.movimientos
+        return todos_los_movimientos
 
     def saludo(self):
-        # TODO: Saludo que indique hora fecha y clima
-        return f"Persona saludando {self.nombre}"
+        ciudad = self.ciudad
+        try:
+            # no toma el parametro de la ciudad por lo tanto renderea la excepcion
+            return f"¡Bienvenid@! {self.nombre}, estos son tus movimientos al {clima_fecha.traer_fecha()} , " \
+                   f"{clima_fecha.obtener_estado_tiempo(ciudad):.2f}:"
+        except Exception as error:
+            print(error)
+            return f"¡Bienvenid@! {self.nombre}, estos son tus movimientos al {clima_fecha.traer_fecha()} , " \
+                   f"{self.ciudad}:"
+        
