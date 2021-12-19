@@ -4,6 +4,9 @@
 
 import csv
 from persona import Persona
+from gasto import Gasto
+from deposito import Deposito
+from transferencia import Transferencia
 
 
 def crear_cuentas():
@@ -14,7 +17,6 @@ def crear_cuentas():
     personas = {}
     archivo = open("personas.csv", "r")
     archivo_csv = csv.reader(archivo)
-    titulos = next(archivo_csv)
     for nombre, dni, fecha_nacimiento, ciudad in archivo_csv:
         persona = Persona(dni, nombre, fecha_nacimiento, ciudad)
         persona.crear_cuenta()
@@ -25,19 +27,46 @@ def crear_cuentas():
     return personas
 
 
-def procesar_gastos(cuentas, archivo):
-    # TODO: procesar linea a linea del archivo, y aplicar a cada cuenta de las personas
+def procesar_gastos(cuenta, monto):
+    gastos = {}
+    personas = {}
+    archivo = open("gastos.csv", "r")
+    archivo_csv = csv.reader(archivo)
+    for dni, monto in archivo_csv:
+        gasto = Gasto(dni, monto)
+        gasto.aplicar_gasto()
+        personas[dni] = gastos
+    archivo.close()
+    return gastos
     # Return: debe devolver las cuentas actualizadas
     pass
 
 
-def procesar_depositos(cuentas, archivo):
-    # TODO: procesar linea a linea del archivo, y aplicar a cada cuenta de las personas
+def procesar_depositos(cuenta, monto):
+    depositos = {}
+    personas = {}
+    archivo = open("depositos.csv", "r")
+    archivo_csv = csv.reader(archivo)
+    for dni, monto in archivo_csv:
+        deposito = Deposito(dni, monto)
+        deposito.aplicar_deposito()
+        personas[dni] = depositos
+    archivo.close()
+    return depositos
     # Return: debe devolver las cuentas actualizadas
     pass
 
 
-def procesar_transferencias(cuentas, archivo):
-    # TODO: procesar linea a linea del archivo, y aplicar a cada cuenta de las personas
+def procesar_transferencias(cuenta, monto):
+    transferencias = {}
+    personas = {}
+    archivo = open("transferencias.csv", "r")
+    archivo_csv = csv.reader(archivo)
+    for dni, monto in archivo_csv:
+        transferencia = Transferencia(dni, monto)
+        transferencia.aplicar_deposito()
+        personas[dni] = transferencias
+    archivo.close()
+    return transferencias
     # Return: debe devolver las cuentas actualizadas
     pass

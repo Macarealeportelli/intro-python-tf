@@ -20,26 +20,33 @@ app.config['MAX_CONTENT_PATH'] = 2048
 # definimos nuestros datos en memoria (base de datos)
 lista_de_datos = {}
 
-# TODO: Reemplazar por cada uno de los procesos
+
 @app.route('/procesar_depositos', methods=['POST'])
 def procesar_depositos():
     if request.method == 'POST':
-        f = request.files['file']
-        f.save(f.filename)
-        # TODO: Tarea
-        # lista_de_datos = proceso_cuentas.procesar_depositos(lista_de_datos, f.filename)
+        f = request.files['depositos']
+        f.save(f.depositos)
+        lista_de_datos = proceso_cuentas.procesar_depositos(lista_de_datos, f.depositos)
         return flask.redirect(flask.url_for('home'), code=302)
 
 
 @app.route('/procesar_gastos', methods=['POST'])
 def procesar_gastos():
-    # TODO: Tarea. Ejercicio 6
+    if request.method == 'POST':
+        f = request.files['gastos']
+        f.save(f.gastos)
+        lista_de_datos = proceso_cuentas.procesar_gastos(lista_de_datos, f.gastos)
+        return flask.redirect(flask.url_for('home'), code=302)
     pass
 
 
 @app.route('/procesar_transferencias', methods=['POST'])
 def procesar_transferencias():
-    # TODO: Tarea. Ejercicio 6
+    if request.method == 'POST':
+        f = request.files['transferencias']
+        f.save(f.transferencias)
+        lista_de_datos = proceso_cuentas.procesar_transferencias(lista_de_datos, f.transferencias)
+        return flask.redirect(flask.url_for('home'), code=302)
     pass
 
 
@@ -51,16 +58,17 @@ def proceso():
 @app.route('/<int:dni>')
 def home(dni):
     # dni = request.args.get('dni')
-    # TODO: Si no existe, reemplazar saludo por un mensaje que explique que no se envio dni o no existe en nuestra db
     try:
         persona_titular = lista_de_datos[str(dni)]
         return render_template('home-banking.html',
                                saludo=persona_titular.saludo(),
                                movements=persona_titular.obtener_todos_los_movimientos())
     except Exception as error:
+        print(error)
         return render_template('error.html')
 
 
+# No renderiza el proyecto correctamente porque no reconoce lista_de_datos
 if __name__ == '__main__':
     import proceso_cuentas
     lista_de_datos = proceso_cuentas.crear_cuentas()

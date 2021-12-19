@@ -66,7 +66,7 @@
     </style>
 </head>
 <body>
-	<nav class="navbar is-white topNav">
+		<nav class="navbar is-white topNav">
 			<div class="container">
 				<div class="navbar-brand">
 					<a class="navbar-item" href="../">
@@ -112,11 +112,22 @@
 			</div>
 		</nav>
 		<section class="container">
-            <article class="post">
-                 <h1>Ups! Usuario no encontrado, vuelva a la pagina principal y reingrese los datos de usuario</h1>
-<!--            <button>-->
-<!--                <a rel="stylesheet" href="#home_banking"> Volver a Inicio</a></button>-->
-            </article>
-        </section>
-</body>
+		<article class="post">
+			<h4>
+				Ups! Usuario no encontrado....por favor reingrese los datos
+			</h4>
+		</article>
+			<div class="columns">
+				<div class="column is-9">
+					<div class="box content">
+						{% for movement in movements %}
+						<article class="post">
+							{{movement}}
+						</article>
+						{% endfor %}
+					</div>
+				</div>
+			</div>
+		</section>
+	</body>
 </html>

@@ -5,17 +5,20 @@
 
 from sqlalchemy import DateTime, Integer, String, Column
 from app import db
-from cuenta import Cuenta
+from cuenta import Cuenta, CuentaJoven
 import datetime
 import clima_fecha
 
 
 def convertir_fecha(string_fecha):
-    # TODO: que pasa si la fecha no tiene los 10 caracteres esperados?
-    anio = string_fecha[0:4]
-    mes = string_fecha[5:7]
-    dia = string_fecha[8:10]
-    return datetime.date(int(anio), int(mes), int(dia))
+    try:
+        anio = string_fecha[0:4]
+        mes = string_fecha[5:7]
+        dia = string_fecha[8:10]
+        return datetime.date(int(anio), int(mes), int(dia))
+    except Exception as error:
+        print(error)
+        return f"fecha no válida"
 
 
 class Persona(db.Model):
@@ -25,6 +28,7 @@ class Persona(db.Model):
     fecha_nacimiento = Column(DateTime, nullable=False)
     dni = Column(String(8), nullable=False)
     ciudad = Column(String(100), nullable=False)
+    monto = Column(Integer, primary_key=True)
 
     def __init__(self, dni, nombre, str_fecha_nacimiento, ciudad):
         self.nombre = nombre
@@ -32,6 +36,9 @@ class Persona(db.Model):
         self.dni = dni
         self.cuentas = []
         self.ciudad = ciudad
+        self.gastos = []
+        self.depositos = []
+        self.transferencias = []
 
     def __str__(self):
         return f'Nombre: {self.nombre}'
@@ -46,9 +53,13 @@ class Persona(db.Model):
         return self.edad >= 18
 
     def crear_cuenta(self):
-        # TODO: Segun la edad, debería crear Cuenta o CuentaJoven()
-        cuenta = Cuenta()
-        self.cuentas.append(cuenta)
+        if self.es_mayor_de_edad():
+            cuenta = Cuenta()
+            self.cuentas.append(cuenta)
+        else:
+            cuenta = CuentaJoven()
+            self.cuentas.append(cuenta)
+        return cuenta
 
     def obtener_todos_los_movimientos(self):
         todos_los_movimientos = []
@@ -65,5 +76,4 @@ class Persona(db.Model):
         except Exception as error:
             print(error)
             return f"¡Bienvenid@! {self.nombre}, estos son tus movimientos al {clima_fecha.traer_fecha()} , " \
-                   f"{self.ciudad}:"
-        
+                   f"en la ciudad de {self.ciudad}:"
